@@ -12,7 +12,7 @@ const app = express();
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://cottonroad.onrender.com', 'http://localhost:3001']
+    ? ['https://cottonroad.onrender.com', 'https://*.onrender.com', 'http://localhost:3001']
     : 'http://localhost:3001',
   credentials: true
 }));
