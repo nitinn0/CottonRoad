@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 function Register() {
   const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -14,7 +15,7 @@ function Register() {
     e.preventDefault();
     setError(null);
     try {
-      const res = await axios.post('/api/users/signup', { username, email, password });
+      const res = await axios.post('/api/users/signup', { username, name, email, password });
       localStorage.setItem('token', res.data.token);
       navigate('/');
     } catch (err) {
@@ -49,6 +50,19 @@ function Register() {
               className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
               value={username}
               onChange={e => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              Full Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              value={name}
+              onChange={e => setName(e.target.value)}
               required
             />
           </div>
