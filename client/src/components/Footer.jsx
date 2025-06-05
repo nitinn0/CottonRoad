@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 function Footer() {
   return (
@@ -114,8 +115,29 @@ function Footer() {
           </div>
         </div>
 
+        {/* Policy Links */}
+        <div className="mt-8 pt-8 border-t border-white/20">
+          <div className="flex flex-wrap justify-center gap-4 text-md">
+            <Link to="/about" className="text-white/80 hover:text-white transition-colors">
+              About Company
+            </Link>
+            <Link to="/privacy-policy" className="text-white/80 hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms-and-conditions" className="text-white/80 hover:text-white transition-colors">
+              Terms & Conditions
+            </Link>
+            <Link to="/refund-policy" className="text-white/80 hover:text-white transition-colors">
+              Refund Policy
+            </Link>
+            <Link to="/return-policy" className="text-white/80 hover:text-white transition-colors">
+              Return Policy
+            </Link>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-white/20">
+        <div className="mt-8 pt-8 border-t border-white/20">
           <p className="text-center text-white/80">
             © {new Date().getFullYear()} Powered by SKL ONLINE SERVICES PRIVATE LTD.
           </p>

@@ -3,8 +3,15 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 
-require('dotenv').config();
+// Load environment variables first
+dotenv.config();
 
+// Verify email configuration
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+  console.error('Warning: Email configuration is missing in .env file');
+}
+
+const contactRoutes = require('./routes/contact');
 connectDB();
 
 const app = express();
@@ -21,6 +28,7 @@ app.use(express.json());
 app.use('/api/products', require('./routes/productRoute'));
 app.use('/api/orders', require('./routes/orderRoute'));
 app.use('/api/users', require('./routes/userRoute'));
+app.use('/api/contact', contactRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
