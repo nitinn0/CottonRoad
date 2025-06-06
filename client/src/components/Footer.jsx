@@ -74,6 +74,11 @@ function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/shop?category=Kids" className="text-white/90 hover:text-white transition-colors">
+                  Kid's Collection
+                </Link>
+              </li>
+              <li>
                 <Link to="/shop?category=Luxury" className="text-white/90 hover:text-white transition-colors">
                   Luxury Items
                 </Link>

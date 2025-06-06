@@ -3,7 +3,7 @@ import React from 'react';
 const RefundPolicy = () => {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Refund Policy</h1>
+      <h1 className="text-3xl  bg-gradient-to-r from-green-400 to-teal-500 p-8 text-center font-bold mb-6">Refund Policy</h1>
       
       <div className="prose max-w-none">
         <p className="mb-4">

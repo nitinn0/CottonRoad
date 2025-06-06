@@ -34,7 +34,7 @@ function Shop() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h2 className="text-2xl font-bold mb-8 text-gray-800">
+      <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-green-400 to-teal-500 p-8 text-center text-gray-800">
         {category ? `${category} Products` : 'All Products'}
       </h2>
       {products.length === 0 ? (

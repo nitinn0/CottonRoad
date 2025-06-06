@@ -132,7 +132,7 @@ function Home() {
             <Link 
               key={index} 
               to={`/shop?category=${category.name}`}
-              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl bg-gradient-to-r from-green-400 to-teal-500 transition-all duration-300"
             >
               <div className="aspect-w-1 aspect-h-1 w-full">
                 <img

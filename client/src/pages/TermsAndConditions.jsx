@@ -3,11 +3,11 @@ import React from 'react';
 const TermsAndConditions = () => {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Terms & Conditions</h1>
+      <h1 className="text-3xl font-bold  bg-gradient-to-r from-green-400 to-teal-500 p-8 text-center mb-6">Terms & Conditions</h1>
       
       <div className="prose max-w-none">
         <p className="mb-4">
-          These Terms and Conditions ("Terms") govern your use of the S L Infosys E-Commerce platform and the purchase of products and services offered on our website. Please read these Terms carefully before making a purchase. By accessing our website and making a purchase, you agree to comply with and be bound by these Terms.
+          These Terms and Conditions ("Terms") govern your use of the SKL ONLINE SERVICES PVT LTD. E-Commerce platform and the purchase of products and services offered on our website. Please read these Terms carefully before making a purchase. By accessing our website and making a purchase, you agree to comply with and be bound by these Terms.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">1. 7 Days Return Policy</h2>
