@@ -138,6 +138,9 @@ function Footer() {
             <Link to="/return-policy" className="text-white/80 hover:text-white transition-colors">
               Return Policy
             </Link>
+            <Link to="/faq" className="text-white/80 hover:text-white transition-colors">
+              FAQ
+            </Link>
           </div>
         </div>
 

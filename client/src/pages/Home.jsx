@@ -6,6 +6,13 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+// Add custom styles for testimonial slider
+const testimonialStyles = `
+  .testimonial-slider .slick-dots {
+    margin-top: 3rem !important;
+  }
+`;
+
 function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,6 +93,7 @@ function Home() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 py-8">
+      <style>{testimonialStyles}</style>
       <div className="relative rounded-2xl overflow-hidden mt-4 mb-14">
         <Slider {...sliderSettings}>
           {heroSlides.map((slide, index) => (
@@ -132,7 +140,7 @@ function Home() {
             <Link 
               key={index} 
               to={`/shop?category=${category.name}`}
-              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl bg-gradient-to-r from-green-400 to-teal-500 transition-all duration-300"
+              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <div className="aspect-w-1 aspect-h-1 w-full">
                 <img
@@ -178,36 +186,101 @@ function Home() {
 
       {/* Testimonials */}
       <section className="mb-14 bg-orange-100 py-36">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12">
-          {/* Text Content */}
-          <div className="md:w-2/5 text-center md:text-left">
-            <h2 className="text-4xl font-bold text-black mb-6">
-              The Reviews Are In
-            </h2>
-            <div className="text-left">
-              <div className="flex items-center mb-4 justify-center md:justify-start">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.803 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.803-2.034a1 1 0 00-1.175 0l-2.803 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
-                  </svg>
-                ))}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-bold text-black mb-20 text-center">
+            What Our Customers Say
+          </h2>
+          <Slider
+            dots={true}
+            infinite={true}
+            speed={500}
+            slidesToShow={1}
+            slidesToScroll={1}
+            autoplay={true}
+            autoplaySpeed={3000}
+            arrows={true}
+            className="testimonial-slider"
+          >
+            <div className="px-4">
+              <div className="bg-white rounded-2xl p-8 shadow-lg">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.803 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.803-2.034a1 1 0 00-1.175 0l-2.803 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-lg text-gray-700 italic mb-6">
+                  "Great selection of cotton clothing for men and women, with consistently excellent quality over the years. The customer service is exceptional and the delivery is always on time."
+                </p>
+                <div className="flex items-center">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80"
+                    alt="Reyna Kraig"
+                    className="w-20 h-20 rounded-full object-cover border-4 border-orange-200 shadow-lg"
+                  />
+                  <div className="ml-6">
+                    <p className="text-black font-semibold text-lg">Reyna Kraig</p>
+                    <p className="text-gray-600">Moscow, Russia</p>
+                  </div>
+                </div>
               </div>
-              <p className="text-lg text-black italic mb-4">
-                "Great selection of cotton clothing for men and women, with consistently excellent quality over the years."
-              </p>
-              <p className="text-black font-semibold">
-                - Reyna Kraig, Moscow
-              </p>
             </div>
-          </div>
-          {/* Image */}
-          <div className="md:w-1/2">
-            <img 
-              src="https://images.unsplash.com/photo-1485217988980-11786ced9454?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Customer testimonial"
-              className="rounded-xl shadow-lg object-cover w-full h-auto"
-            />
-          </div>
+
+            {/* Second Review */}
+            <div className="px-4">
+              <div className="bg-white rounded-2xl p-8 shadow-lg">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.803 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.803-2.034a1 1 0 00-1.175 0l-2.803 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-lg text-gray-700 italic mb-6">
+                  "The kids' collection is amazing! My children love the comfortable cotton clothes, and they last through multiple washes. The prices are reasonable and the quality is outstanding."
+                </p>
+                <div className="flex items-center">
+                  <img
+                    src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80"
+                    alt="Sarah Johnson"
+                    className="w-20 h-20 rounded-full object-cover border-4 border-orange-200 shadow-lg"
+                  />
+                  <div className="ml-6">
+                    <p className="text-black font-semibold text-lg">Sarah Johnson</p>
+                    <p className="text-gray-600">London, UK</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Third Review */}
+            <div className="px-4">
+              <div className="bg-white rounded-2xl p-8 shadow-lg">
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.803 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.803-2.034a1 1 0 00-1.175 0l-2.803 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-lg text-gray-700 italic mb-6">
+                  "I've been shopping here for years and have never been disappointed. The luxury collection is particularly impressive, with beautiful designs and premium quality materials."
+                </p>
+                <div className="flex items-center">
+                  <img
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80"
+                    alt="Priya Sharma"
+                    className="w-20 h-20 rounded-full object-cover border-4 border-orange-200 shadow-lg"
+                  />
+                  <div className="ml-6">
+                    <p className="text-black font-semibold text-lg">Priya Sharma</p>
+                    <p className="text-gray-600">Delhi, India</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Slider>
         </div>
       </section>
 
