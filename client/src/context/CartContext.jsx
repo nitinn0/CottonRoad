@@ -20,7 +20,23 @@ export function CartProvider({ children }) {
       setIsAuthenticated(false);
       setUser(null);
     }
+
+    // Load cart from localStorage
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch (error) {
+        console.error('Error loading cart:', error);
+        setCart([]);
+      }
+    }
   }, []);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product) => {
     if (!isAuthenticated) {
@@ -34,6 +50,7 @@ export function CartProvider({ children }) {
       });
       return;
     }
+
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item._id === product._id);
       if (existingItem) {
@@ -65,6 +82,14 @@ export function CartProvider({ children }) {
 
   const removeFromCart = (productId) => {
     setCart(prevCart => prevCart.filter(item => item._id !== productId));
+    toast.info('Item removed from cart', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   const updateQuantity = (productId, quantity) => {
@@ -78,6 +103,7 @@ export function CartProvider({ children }) {
 
   const clearCart = () => {
     setCart([]);
+    localStorage.removeItem('cart');
   };
 
   const handleLogin = (token) => {

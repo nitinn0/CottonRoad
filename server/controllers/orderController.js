@@ -26,7 +26,7 @@ exports.getOrderById = async (req, res) => {
 // Create order
 exports.createOrder = async (req, res) => {
   try {
-    const { products, totalPrice, paymentMethod, shippingAddress } = req.body;
+    const { products, totalPrice, shippingAddress, paymentMethod } = req.body;
     
     // Validate required fields
     if (!products || !Array.isArray(products) || products.length === 0) {
@@ -47,13 +47,11 @@ exports.createOrder = async (req, res) => {
     // Create the order
     const order = new Order({
       user: req.user._id,
-      products: products.map(item => ({
-        product: item.product,
-        quantity: item.quantity
-      })),
+      products,
       totalPrice,
-      status: 'pending',
-      shippingAddress
+      shippingAddress,
+      paymentMethod: paymentMethod || 'COD',
+      status: 'pending'
     });
 
     // Save the order
@@ -150,7 +148,8 @@ exports.getLatestOrder = async (req, res) => {
   try {
     const order = await Order.findOne({ user: req.user._id })
       .sort({ createdAt: -1 })
-      .populate('products.product');
+      .populate('products.product')
+      .select('_id totalPrice status shippingAddress paymentMethod createdAt products');
     
     if (!order) {
       return res.status(404).json({ message: 'No orders found' });
