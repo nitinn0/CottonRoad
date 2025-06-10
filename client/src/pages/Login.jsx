@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import axios from '../utils/axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,38 +17,36 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
+      const response = await axios.post('/api/users/login', {
+        email,
+        password
       });
 
-      // Check if the response is JSON
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Server error. Please try again later.');
+      if (response.data.token && response.data.user) {
+        // Store token and user data in localStorage
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        
+        // Update authentication state
+        handleLogin(response.data.token);
+
+        // Redirect to home page
+        navigate('/');
+      } else {
+        throw new Error('Invalid response from server');
       }
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
-      // Store token in localStorage
-      localStorage.setItem('token', data.token);
-      
-      // Update authentication state
-      handleLogin(data.token);
-
-      // Redirect to home page
-      navigate('/');
     } catch (err) {
       console.error('Login error:', err);
-      setError(err.message || 'Failed to login. Please try again.');
+      if (err.response) {
+        // Server responded with an error
+        setError(err.response.data?.message || 'Invalid email or password');
+      } else if (err.request) {
+        // Request was made but no response received
+        setError('Unable to connect to server. Please check your internet connection.');
+      } else {
+        // Something else happened
+        setError('An unexpected error occurred. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -119,7 +118,15 @@ const Login = () => {
               disabled={isLoading}
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-400 to-teal-500 hover:from-green-500 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? (
+                <span className="flex items-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Signing in...
+                </span>
+              ) : 'Sign In'}
             </button>
           </div>
         </form>

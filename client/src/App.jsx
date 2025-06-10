@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -23,6 +25,8 @@ import RefundPolicy from './pages/RefundPolicy';
 import ReturnPolicy from './pages/ReturnPolicy';
 import Contact from './pages/Contact';
 import Faq from './pages/Faq';
+import NotFound from './pages/NotFound';
+import OrderSuccess from './pages/OrderSuccess';
 
 
 function ScrollToTop() {
@@ -40,6 +44,7 @@ function App() {
     <Router>
       <ScrollToTop />
       <div className="min-h-screen flex flex-col">
+        <ToastContainer />
         <Navbar />
         <main className="flex-grow">
           <Routes>
@@ -63,6 +68,8 @@ function App() {
             <Route path="/return-policy" element={<ReturnPolicy />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<Faq />} />
+            <Route path="/order-success" element={<OrderSuccess />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />

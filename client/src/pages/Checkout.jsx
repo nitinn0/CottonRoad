@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Checkout() {
-  const { cart, clearCart } = useCart();
+  const { cart, clearCart, isAuthenticated } = useCart();
   const [address, setAddress] = useState('');
   const [payment, setPayment] = useState('COD');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check authentication on component mount
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -17,24 +24,54 @@ function Checkout() {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
+    // Validate cart
+    if (!cart || cart.length === 0) {
+      setError('Your cart is empty');
+      setLoading(false);
+      return;
+    }
+
+    // Validate address
+    if (!address.trim()) {
+      setError('Please enter your shipping address');
+      setLoading(false);
+      return;
+    }
+
     try {
-      // You may want to send user info (token) as well
-      await axios.post('/api/orders', {
-        items: cart,
-        address,
-        payment,
-        total
-      }, {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Please log in to place an order');
+        navigate('/login');
+        return;
+      }
+
+      const orderData = {
+        products: cart.map(item => ({
+          product: item._id,
+          quantity: item.quantity
+        })),
+        totalPrice: total,
+        paymentMethod: payment,
+        shippingAddress: address
+      };
+
+      const response = await axios.post('/api/orders', orderData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       });
-      clearCart();
-      navigate('/success');
+
+      // Redirect to success page
+      navigate('/order-success');
     } catch (err) {
-      setError('Order failed. Please try again.');
+      console.error('Error placing order:', err);
+      setError(err.response?.data?.message || 'Failed to place order. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   if (cart.length === 0) {
@@ -70,7 +107,7 @@ function Checkout() {
           <div className="font-bold text-lg text-gray-900">Total: ₹{total.toLocaleString()}</div>
         </div>
         {error && <div className="text-red-500 text-sm">{error}</div>}
-        <button type="submit" disabled={loading} className="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded font-semibold text-lg transition disabled:opacity-50">
+        <button type="submit" disabled={loading} className="w-full bg-orange-200 hover:bg-orange-100 text-black py-3 rounded font-semibold text-lg transition disabled:opacity-50">
           {loading ? 'Placing Order...' : 'Place Order'}
         </button>
       </form>

@@ -1,31 +1,64 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Check if user is authenticated on mount
     const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token);
+    const userData = localStorage.getItem('user');
+    
+    if (token && userData) {
+      setIsAuthenticated(true);
+      setUser(JSON.parse(userData));
+    } else {
+      setIsAuthenticated(false);
+      setUser(null);
+    }
   }, []);
 
   const addToCart = (product) => {
     if (!isAuthenticated) {
-      alert('Please login to add items to cart');
+      toast.error('Please login to add items to cart', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       return;
     }
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item._id === product._id);
       if (existingItem) {
+        toast.success('Item quantity updated in cart!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
         return prevCart.map(item =>
           item._id === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
+      toast.success('Item added to cart!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       return [...prevCart, { ...product, quantity: 1 }];
     });
   };
@@ -47,14 +80,21 @@ export function CartProvider({ children }) {
     setCart([]);
   };
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
+  const handleLogin = (token) => {
+    const userData = localStorage.getItem('user');
+    if (token && userData) {
+      localStorage.setItem('token', token);
+      setIsAuthenticated(true);
+      setUser(JSON.parse(userData));
+    }
   };
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    clearCart();
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+    setUser(null);
+    clearCart();
   };
 
   const value = {
@@ -64,6 +104,7 @@ export function CartProvider({ children }) {
     updateQuantity,
     clearCart,
     isAuthenticated,
+    user,
     handleLogin,
     handleLogout
   };

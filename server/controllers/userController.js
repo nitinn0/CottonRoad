@@ -23,27 +23,46 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+    
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+    
     const token = jwt.sign(
-      { id: user._id, username: user.username, isAdmin: user.isAdmin },
+      { _id: user._id, email: user.email, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
-    res.json({ token });
+
+    // Return both token and user data (excluding password)
+    const userData = {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      isAdmin: user.isAdmin
+    };
+
+    res.json({ 
+      token,
+      user: userData,
+      message: 'Login successful'
+    });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('Login error:', err);
+    res.status(500).json({ message: 'Server error during login' });
   }
 };
 
 // Get current user (protected)
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    const user = await User.findById(req.user._id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    console.error('Error in getMe:', error);
+    res.status(500).json({ message: 'Error fetching user profile' });
   }
 };
 

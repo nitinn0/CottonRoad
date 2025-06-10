@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../utils/axios';
+import axios from 'axios';
+import { useCart } from '../context/CartContext';
 
 function Profile() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useCart();
   const [user, setUser] = useState(null);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,28 +17,39 @@ function Profile() {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem('token');
-        if (!token) {
+        if (!token || !isAuthenticated) {
           navigate('/login');
           return;
         }
 
+        const config = {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        };
+
         const [userResponse, ordersResponse] = await Promise.all([
-          axios.get('/api/users/me'),
-          axios.get('/api/orders')
+          axios.get('/api/users/me', config),
+          axios.get('/api/orders', config)
         ]);
 
         setUser(userResponse.data);
         setOrders(ordersResponse.data);
       } catch (err) {
-        setError('Failed to load profile data');
         console.error('Error fetching profile:', err);
+        if (err.response?.status === 401) {
+          localStorage.removeItem('token');
+          navigate('/login');
+        } else {
+          setError('Failed to load profile data. Please try again.');
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [navigate]);
+  }, [navigate, isAuthenticated]);
 
   const handleViewOrderDetails = (order) => {
     setSelectedOrder(order);

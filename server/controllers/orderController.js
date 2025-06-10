@@ -26,25 +26,48 @@ exports.getOrderById = async (req, res) => {
 // Create order
 exports.createOrder = async (req, res) => {
   try {
-    const { items, totalPrice, shippingAddress } = req.body;
+    const { products, totalPrice, paymentMethod, shippingAddress } = req.body;
+    
+    // Validate required fields
+    if (!products || !Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({ message: 'Products are required' });
+    }
+    if (!totalPrice || totalPrice <= 0) {
+      return res.status(400).json({ message: 'Valid total price is required' });
+    }
+    if (!shippingAddress) {
+      return res.status(400).json({ message: 'Shipping address is required' });
+    }
+
+    // Validate user
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+
+    // Create the order
     const order = new Order({
-      user: req.user.id,
-      items,
+      user: req.user._id,
+      products: products.map(item => ({
+        product: item.product,
+        quantity: item.quantity
+      })),
       totalPrice,
+      status: 'pending',
       shippingAddress
     });
 
-    await order.save();
+    // Save the order
+    const savedOrder = await order.save();
 
     // Get user details for email
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user._id);
     if (!user) {
       throw new Error('User not found');
     }
 
     // Send order confirmation email
     try {
-      await sendOrderConfirmationEmail(order, user);
+      await sendOrderConfirmationEmail(savedOrder, user);
     } catch (emailError) {
       console.error('Failed to send order confirmation email:', emailError);
       // Don't throw the error - we still want to return the order even if email fails
@@ -52,11 +75,20 @@ exports.createOrder = async (req, res) => {
 
     res.status(201).json({
       message: 'Order created successfully',
-      order
+      order: savedOrder
     });
   } catch (error) {
     console.error('Error in createOrder:', error);
-    res.status(500).json({ message: 'Error creating order' });
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ 
+        message: 'Validation error', 
+        details: Object.values(error.errors).map(err => err.message)
+      });
+    }
+    res.status(500).json({ 
+      message: 'Error creating order',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
@@ -110,5 +142,23 @@ exports.getOrder = async (req, res) => {
     res.json(order);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching order' });
+  }
+};
+
+// Get latest order for a user
+exports.getLatestOrder = async (req, res) => {
+  try {
+    const order = await Order.findOne({ user: req.user._id })
+      .sort({ createdAt: -1 })
+      .populate('products.product');
+    
+    if (!order) {
+      return res.status(404).json({ message: 'No orders found' });
+    }
+    
+    res.json(order);
+  } catch (error) {
+    console.error('Error in getLatestOrder:', error);
+    res.status(500).json({ message: 'Error fetching latest order' });
   }
 }; 

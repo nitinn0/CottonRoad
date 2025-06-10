@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from '../utils/axios';
 import ProductCard from '../components/ProductCard';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Add custom styles for testimonial slider
 const testimonialStyles = `
@@ -17,6 +19,7 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -91,9 +94,43 @@ function Home() {
     }
   ];
 
+  const handleAddToCart = async (productId) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      await axios.post('/cart/add', { productId }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      toast.success('Product added to cart!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Failed to add product to cart', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 py-8">
       <style>{testimonialStyles}</style>
+      <ToastContainer />
       <div className="relative rounded-2xl overflow-hidden mt-4 mb-14">
         <Slider {...sliderSettings}>
           {heroSlides.map((slide, index) => (
