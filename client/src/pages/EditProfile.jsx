@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../utils/axios';
+import { toast } from 'react-toastify';
+import { useCart } from '../context/CartContext';
 
 function EditProfile() {
   const navigate = useNavigate();
+  const { isAuthenticated, handleLogout } = useCart();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,8 +21,7 @@ function EditProfile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
+        if (!isAuthenticated) {
           navigate('/login');
           return;
         }
@@ -32,15 +34,22 @@ function EditProfile() {
           address: response.data.address || ''
         });
       } catch (err) {
-        setError('Failed to load profile data');
         console.error('Error fetching profile:', err);
+        if (err.response?.status === 401) {
+          toast.error('Session expired. Please login again.');
+          handleLogout();
+          navigate('/login');
+        } else {
+          setError('Failed to load profile data');
+          toast.error('Failed to load profile data');
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [navigate]);
+  }, [navigate, isAuthenticated, handleLogout]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,11 +68,14 @@ function EditProfile() {
     try {
       await axios.put('/api/users/update-profile', formData);
       setSuccess(true);
+      toast.success('Profile updated successfully!');
       setTimeout(() => {
         navigate('/profile');
       }, 2000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update profile');
+      const errorMessage = err.response?.data?.message || 'Failed to update profile';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setSaving(false);
     }

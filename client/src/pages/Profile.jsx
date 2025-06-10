@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../utils/axios';
 import { useCart } from '../context/CartContext';
+import { toast } from 'react-toastify';
 
 function Profile() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useCart();
+  const { isAuthenticated, handleLogout } = useCart();
   const [user, setUser] = useState(null);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,21 +17,14 @@ function Profile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token || !isAuthenticated) {
+        if (!isAuthenticated) {
           navigate('/login');
           return;
         }
 
-        const config = {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        };
-
         const [userResponse, ordersResponse] = await Promise.all([
-          axios.get('/api/users/me', config),
-          axios.get('/api/orders', config)
+          axios.get('/api/users/me'),
+          axios.get('/api/orders')
         ]);
 
         setUser(userResponse.data);
@@ -38,10 +32,12 @@ function Profile() {
       } catch (err) {
         console.error('Error fetching profile:', err);
         if (err.response?.status === 401) {
-          localStorage.removeItem('token');
+          toast.error('Session expired. Please login again.');
+          handleLogout();
           navigate('/login');
         } else {
           setError('Failed to load profile data. Please try again.');
+          toast.error('Failed to load profile data');
         }
       } finally {
         setLoading(false);
@@ -49,7 +45,7 @@ function Profile() {
     };
 
     fetchUserData();
-  }, [navigate, isAuthenticated]);
+  }, [navigate, isAuthenticated, handleLogout]);
 
   const handleViewOrderDetails = (order) => {
     setSelectedOrder(order);
