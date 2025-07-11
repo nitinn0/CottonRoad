@@ -7,7 +7,7 @@ const PrivacyPolicy = () => {
       
       <div className="prose max-w-none">
         <p className="mb-4">
-          At SKL ONLINE SERVICES PVT LTD, we are committed to safeguarding your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use our e-commerce platform for electronic products.
+          At A.K E-commerce, we are committed to safeguarding your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use our e-commerce platform for electronic products.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Information We Collect</h2>
@@ -66,7 +66,7 @@ const PrivacyPolicy = () => {
 
         <div className="mt-8 text-sm text-gray-600">
           <p>Last updated: {new Date().toLocaleDateString()}</p>
-          <p className="mt-2">© {new Date().getFullYear()} Powered by SKL ONLINE SERVICES PVT LTD</p>
+          <p className="mt-2">© {new Date().getFullYear()} Powered by A.K E-commerce</p>
         </div>
       </div>
     </div>

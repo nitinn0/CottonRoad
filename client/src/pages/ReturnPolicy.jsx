@@ -62,9 +62,9 @@ const ReturnPolicy = () => {
         <p className="mb-4">
           For any questions regarding returns, please contact our customer service:
           <br />
-          Email: info@cottonroad.in
+          Email: akecommerce162@gmail.com
           <br />
-          Phone: +91-76697 37776
+          Phone: +91-9877531762
         </p>
 
         <p className="mt-8 text-sm text-gray-600">

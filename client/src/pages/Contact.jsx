@@ -56,9 +56,9 @@ const Contact = () => {
               <div>
                 <h3 className="text-lg font-medium text-gray-900">Address</h3>
                 <p className="mt-1 text-gray-600">
-                  SHIV NAGAR, 3 E, 100 Foot Road,<br />
-                  Sriganganagar, Rajasthan,<br />
-                  India - 33501
+                Cabin No 501 Plot No E 237-AA<br />
+                  5th Floor, Phase- 8B, Industrial Area,<br />
+                  Mohali, SAS Nagar, Punjab - 160071<br />
                 </p>
               </div>
             </div>
@@ -71,7 +71,7 @@ const Contact = () => {
               </div>
               <div>
                 <h3 className="text-lg font-medium text-gray-900">Phone</h3>
-                <p className="mt-1 text-gray-600">+91-76697 37776</p>
+                <p className="mt-1 text-gray-600">+91-9877531762</p>
               </div>
             </div>
 
@@ -83,7 +83,7 @@ const Contact = () => {
               </div>
               <div>
                 <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                <p className="mt-1 text-gray-600">sklonlinepvt@gmail.com</p>
+                <p className="mt-1 text-gray-600">akecommerce162@gmail.com </p>
               </div>
             </div>
 
@@ -197,7 +197,7 @@ const Contact = () => {
       {/* Map Section */}
       <div className="mt-8 bg-white rounded-lg shadow-md overflow-hidden">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3476.123456789012!2d73.8797!3d29.9137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjnCsDU0JzQ5LjMiTiA3M8KwNTInNDkuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
+          src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d13722.770707059386!2d76.69171035835214!3d30.69892181929191!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s%20Plot%20No%20E%20237-AA%2C%20%3A%20Fifth%20Floor%2C%20Phase%20-8B%2C%20Industrial%20Area%2C%20%20Mohali%2C%20SAS%20Nagar%2C%20Punjab%20-%20160071!5e0!3m2!1sen!2sin!4v1752218257781!5m2!1sen!2sin"
           width="100%"
           height="450"
           style={{ border: 0 }}

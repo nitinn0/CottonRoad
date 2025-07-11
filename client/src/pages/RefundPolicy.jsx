@@ -7,7 +7,7 @@ const RefundPolicy = () => {
       
       <div className="prose max-w-none">
         <p className="mb-4">
-          At SKL ONLINE SERVICES PVT LTD, we are dedicated to providing a seamless shopping experience and ensuring customer satisfaction. We understand that situations may arise where a return or cancellation is necessary. Please read our Refund Policy carefully to understand the conditions and procedures.
+          At A.K E-commerce, we are dedicated to providing a seamless shopping experience and ensuring customer satisfaction. We understand that situations may arise where a return or cancellation is necessary. Please read our Refund Policy carefully to understand the conditions and procedures.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">1. 7 Days Return Policy</h2>
@@ -17,7 +17,7 @@ const RefundPolicy = () => {
         <ul className="list-disc pl-6 mb-4">
           <li>The product must be in its original condition, unused, with all original tags, labels, and packaging intact.</li>
           <li>To initiate a return, please contact our customer support team within the 7-day period to request a return authorization.</li>
-          <li>SKL ONLINE SERVICES PVT LTD reserves the right to inspect the returned product to ensure it meets the conditions for return.</li>
+          <li>A.K E-commerce reserves the right to inspect the returned product to ensure it meets the conditions for return.</li>
           <li>Returns will be accepted for products that are not damaged or used, with the original packaging and accessories included.</li>
         </ul>
 
@@ -52,12 +52,12 @@ const RefundPolicy = () => {
         </p>
 
         <p className="mt-8 mb-4">
-          SKL ONLINE SERVICES PVT LTD is dedicated to ensuring a smooth and hassle-free refund process. Our aim is to provide prompt and fair resolutions for our customers. Your satisfaction is our top priority.
+          A.K E-commerce is dedicated to ensuring a smooth and hassle-free refund process. Our aim is to provide prompt and fair resolutions for our customers. Your satisfaction is our top priority.
         </p>
 
         <div className="mt-8 text-sm text-gray-600">
           <p>Last updated: {new Date().toLocaleDateString()}</p>
-          <p className="mt-2">© {new Date().getFullYear()} Powered by SKL ONLINE SERVICES PVT LTD</p>
+          <p className="mt-2">© {new Date().getFullYear()} Powered by A.K E-commerce</p>
         </div>
       </div>
     </div>

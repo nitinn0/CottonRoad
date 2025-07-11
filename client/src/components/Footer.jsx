@@ -94,7 +94,7 @@ function Footer() {
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span>sklonlinepvt@gmail.com</span>
+                <span>akecommerce162@gmail.com</span>
               </li>
               {/* <li className="flex items-center space-x-2 text-white/90">
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,9 +110,10 @@ function Footer() {
                 <div className="flex flex-col">
                   
                   <span className="text-sm text-white/80 mt-1">
-                    SHIV NAGAR, 3 E, 100 Foot Road,<br />
-                    Sriganganagar, Rajasthan,<br />
-                    India - 33501
+                  Cabin No 501 Plot No E 237-AA<br />
+                  5th Floor, Phase- 8B, Industrial Area,<br />
+                  Mohali, SAS Nagar, Punjab - 160071<br />
+                    
                   </span>
                 </div>
               </li>
@@ -147,7 +148,7 @@ function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 pt-8 border-t border-white/20">
           <p className="text-center text-white/80">
-            © {new Date().getFullYear()} Powered by SKL ONLINE SERVICES PRIVATE LTD.
+            © {new Date().getFullYear()} A.K E-Commerce
           </p>
         </div>
       </div>

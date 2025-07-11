@@ -7,12 +7,12 @@ const AboutCompany = () => {
       
       <div className="prose max-w-none">
         <p className="mb-4">
-          SKL ONLINE SERVICES PVT LTD is a pioneering clothing company that has set a remarkable vision for itself. Our mission is to provide high-quality, fashionable clothing-line for women at the most affordable prices. With a specific focus on targeting the low and middle-class audiences, we aim to break down the financial barriers that have kept individuals from fulfilling their desires to look rich and up-market.
+          A.K E-Commerce is a pioneering clothing company that has set a remarkable vision for itself. Our mission is to provide high-quality, fashionable clothing-line for women at the most affordable prices. With a specific focus on targeting the low and middle-class audiences, we aim to break down the financial barriers that have kept individuals from fulfilling their desires to look rich and up-market.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Our Vision</h2>
         <p className="mb-4">
-          At SKL ONLINE SERVICES PVT LTD, our vision goes beyond mere business. We aim to make awe-inspiring designs and make fashion an agent of happiness and cheerfulnes. We understand the dreams and aspirations of those who have been constrained by budget limitations and we for them are determined to provide latest, modern and high quality products.
+          At A.K E-Commerce, our vision goes beyond mere business. We aim to make awe-inspiring designs and make fashion an agent of happiness and cheerfulnes. We understand the dreams and aspirations of those who have been constrained by budget limitations and we for them are determined to provide latest, modern and high quality products.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Key Objectives</h2>
@@ -33,22 +33,22 @@ const AboutCompany = () => {
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Product Range</h2>
         <p className="mb-4">
-          SKL ONLINE SERVICES PVT LTD offers a wide array of fashionable ladies apparels. Our products are carefully curated to provide the best possible value for money, with no compromise on quality or durability.
+          A.K E-Commerce offers a wide array of fashionable ladies apparels. Our products are carefully curated to provide the best possible value for money, with no compromise on quality or durability.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Community Involvement</h2>
         <p className="mb-4">
-          SKL ONLINE SERVICES PVT LTD is deeply involved in the communities it serves. We conduct workshops, educational events, and outreach programs to help individuals better understand and utilize technology. Our commitment extends beyond the products we sell; it is about empowering individuals through knowledge and access to technology.
+          A.K E-Commerce is deeply involved in the communities it serves. We conduct workshops, educational events, and outreach programs to help individuals better understand and utilize technology. Our commitment extends beyond the products we sell; it is about empowering individuals through knowledge and access to technology.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Conclusion</h2>
         <p className="mb-4">
-          SKL ONLINE SERVICES PVT LTD is more than just an apparel company; it is a catalyst for change and empowerment. Our dedication to offering high-quality products at affordable prices is driven by our vision to level the playing field for all, ensuring that technology is no longer a distant dream but a tangible reality for low and middle-class audiences. We are committed to making lives better by providing access to the latest and hand-picked fashion products without breaking the bank.
+          A.K E-Commerce is more than just an apparel company; it is a catalyst for change and empowerment. Our dedication to offering high-quality products at affordable prices is driven by our vision to level the playing field for all, ensuring that technology is no longer a distant dream but a tangible reality for low and middle-class audiences. We are committed to making lives better by providing access to the latest and hand-picked fashion products without breaking the bank.
         </p>
 
         <div className="mt-8 text-sm text-gray-600">
           <p>Last updated: {new Date().toLocaleDateString()}</p>
-          <p className="mt-2">© {new Date().getFullYear()} Powered by SKL ONLINE SERVICES PVT LTD</p>
+          <p className="mt-2">© {new Date().getFullYear()} Powered by A.K E-Commerce</p>
         </div>
       </div>
     </div>
