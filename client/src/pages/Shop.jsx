@@ -3,6 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import axios from '../utils/axios';
 import ProductCard from '../components/ProductCard';
 
+// In-memory cache for products (lives as long as the page is not reloaded)
+let cachedProducts = null;
+
 function Shop() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,8 +14,20 @@ function Shop() {
   const category = searchParams.get('category');
 
   useEffect(() => {
+    if (cachedProducts) {
+      let filteredProducts = cachedProducts;
+      if (category) {
+        filteredProducts = cachedProducts.filter(product => 
+          product.category && product.category.toLowerCase() === category.toLowerCase()
+        );
+      }
+      setProducts(filteredProducts);
+      setLoading(false);
+      return;
+    }
     axios.get('/api/products')
       .then(res => {
+        cachedProducts = res.data; // cache the products
         let filteredProducts = res.data;
         if (category) {
           filteredProducts = res.data.filter(product => 
@@ -24,7 +39,11 @@ function Shop() {
       })
       .catch(err => {
         console.error('Error loading products:', err);
-        setError('Failed to load products');
+        if (err.response && err.response.status === 429) {
+          setError('Too many requests. Please wait a minute and try again.');
+        } else {
+          setError('Failed to load products');
+        }
         setLoading(false);
       });
   }, [category]);

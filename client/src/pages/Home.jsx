@@ -21,20 +21,30 @@ function Home() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('/api/products');
-        setProducts(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load products');
-        setLoading(false);
-        console.error('Error fetching products:', err);
-      }
-    };
+  // In-memory cache for products (lives as long as the page is not reloaded)
+  let cachedProducts = null;
 
-    fetchProducts();
+  useEffect(() => {
+    if (cachedProducts) {
+      setProducts(cachedProducts);
+      setLoading(false);
+      return;
+    }
+    axios.get('/api/products')
+      .then(res => {
+        cachedProducts = res.data;
+        setProducts(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error loading products:', err);
+        if (err.response && err.response.status === 429) {
+          setError('Too many requests. Please wait a minute and try again.');
+        } else {
+          setError('Failed to load products');
+        }
+        setLoading(false);
+      });
   }, []);
 
   // Get 4 random products for featured section

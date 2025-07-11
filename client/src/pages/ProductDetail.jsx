@@ -3,6 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from '../utils/axios';
 import { useCart } from '../context/CartContext';
 
+// In-memory cache for products (lives as long as the page is not reloaded)
+let cachedProducts = null;
+
 function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -25,12 +28,25 @@ function ProductDetail() {
         setProduct(response.data);
         
         // Fetch recommendations (products from same category)
-        const allProducts = await axios.get('/api/products');
-        const filteredProducts = allProducts.data
-          .filter(p => p.category === response.data.category && p._id !== response.data._id)
-          .sort(() => 0.5 - Math.random())
-          .slice(0, 4);
-        setRecommendations(filteredProducts);
+        const fetchAllProducts = async () => {
+          try {
+            if (cachedProducts) {
+              setRecommendations(getRecommendations(cachedProducts));
+              return;
+            }
+            const allProducts = await axios.get('/api/products');
+            cachedProducts = allProducts.data;
+            setRecommendations(getRecommendations(allProducts.data));
+          } catch (err) {
+            if (err.response && err.response.status === 429) {
+              setError('Too many requests. Please wait a minute and try again.');
+            } else {
+              setError('Failed to load recommendations');
+            }
+          }
+        };
+
+        fetchAllProducts();
         
         setLoading(false);
       } catch (err) {
